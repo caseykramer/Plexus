@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Plexus", Plexus\Plexus.fsproj", "{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Sample", "FSharp.Sample\FSharp.Sample.fsproj", "{91509D46-33F5-4013-B3FF-EA7669E12468}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.Sample", "CSharp.Sample\CSharp.Sample.csproj", "{C7B22DAD-73A5-4F57-9051-D73ECF4DFA80}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Plexus", "Plexus\Plexus.fsproj", "{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91509D46-33F5-4013-B3FF-EA7669E12468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{91509D46-33F5-4013-B3FF-EA7669E12468}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91509D46-33F5-4013-B3FF-EA7669E12468}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -25,6 +21,10 @@ Global
 		{C7B22DAD-73A5-4F57-9051-D73ECF4DFA80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7B22DAD-73A5-4F57-9051-D73ECF4DFA80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7B22DAD-73A5-4F57-9051-D73ECF4DFA80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD4E0DF-29E5-4A8E-93D2-D3AFD402CFA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
