@@ -7,16 +7,24 @@ open System.Net.Sockets
 open System.IO
 open System.Collections.Concurrent
 
-let newid() = Guid.NewGuid()
+let newid = 
+    let s = Seq.initInfinite(fun i -> int64 i).GetEnumerator()
+    fun() -> 
+        if s.MoveNext() then
+            s.Current
+        else
+            s.Reset()
+            s.Current
 
-type KeepAlive = 
-    | Ping of (Guid)
-    | Pong of (Guid)
+
+type KeepAlive<'a> = 
+    | Ping of 'a
+    | Pong of 'a
     with 
         member x.ToByteArray() =
             serialize x
         static member FromByteArray(buffer:byte[]) = 
-            deserializeAs<KeepAlive> buffer
+            deserializeAs<KeepAlive<'a>> buffer
 
 type Message<'a> = 
     { Path:string; Payload:'a; ReturnPath:string }
@@ -26,24 +34,26 @@ type Message<'a> =
         static member FromByteArray<'a>(buffer:byte[]) =
             deserializeAs<Message<'a>> buffer
 
-type Response = 
-    { Path:string; Response:obj }
+[<CLIMutable>]
+type Response<'a> = 
+    { Path:string; Response:'a }
     with
         member x.ToByteArray() = 
             serialize x
         static member FromByteArray(buffer:byte[]) = 
-            deserializeAs<Response> buffer
+            deserializeAs<Response<'a>> buffer
 
 type internal Packet<'a> =
     | Empty
-    | K of KeepAlive
+    | K of KeepAlive<'a>
     | M of Message<'a>
-    | R of Response
+    | R of Response<'a>
     with 
         member x.ToByteArray() = 
             serialize x
 
-
+let internal pingPacket (id:int64):Packet<int64> = K(Ping(id))
+let internal pongPacket (id:int64):Packet<int64> = K(Pong(id))
 
 type RemoteInfo = { Address:IPAddress; Socket:Socket;  LastUsed:DateTime }
 

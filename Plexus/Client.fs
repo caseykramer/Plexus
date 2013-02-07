@@ -30,10 +30,12 @@ type Client(receiveBufferSize:int, timeout:TimeSpan) as this =
 
     let rec doReceive arg = 
         async{
+            bufferPool.SetBuffer(arg) |> ignore
             let! receive = socket.AsyncReceive(arg)
             match receive.SocketError with
             | SocketError.Success ->
-                do! processReceive receive.Buffer.[receive.Offset..(receive.Offset + receive.BytesTransferred)]
+                do! processReceive receive.Buffer.[receive.Offset..(receive.Offset + receive.BytesTransferred - 1)]
+                bufferPool.FreeBuffer(arg)
                 return! doReceive arg
             | _ -> failwith (sprintf "Socket Error: %A" receive.SocketError)
             
@@ -85,7 +87,8 @@ type Client(receiveBufferSize:int, timeout:TimeSpan) as this =
     member x.Ping() =
         async {
             let id = newid()
-            do! doSend <| K(Ping(id)).ToByteArray()
+            let packet = pingPacket id
+            do! doSend <| packet.ToByteArray()
             let! result = Async.AwaitEvent(received.Publish)
             return 
                 match result with

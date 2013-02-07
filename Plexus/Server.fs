@@ -33,10 +33,12 @@ type Server(numConnections:int,receiveBufferSize:int,timeout:TimeSpan) =
 
     let rec doReceive arg (socket:Socket) = 
         async{
+            bufferManager.SetBuffer(arg) |> ignore
             let! receive = socket.AsyncReceive(arg)
             match receive.SocketError with
             | SocketError.Success ->
-                do! socket |> processReceive receive.Buffer.[receive.Offset..(receive.Offset + receive.BytesTransferred)]
+                do! socket |> processReceive receive.Buffer.[receive.Offset..(receive.Offset + receive.BytesTransferred - 1)]
+                bufferManager.FreeBuffer(arg)
                 return! doReceive arg socket
             | _ -> failwith (sprintf "Socket Error: %A" receive.SocketError)            
         }
@@ -54,7 +56,7 @@ type Server(numConnections:int,receiveBufferSize:int,timeout:TimeSpan) =
                     received.Trigger(p)
             | _ ->
                 sprintf "Unknown response received from %A" address |> Log.warn 
-                failwith "Unknown response received"
+                //failwith "Unknown response received"
         }
 
     let rec attemptConnect() = 

@@ -31,6 +31,10 @@ namespace CSharp.Sample
 
         static void Main(string[] args)
         {
+            var actor = new MyActor();
+
+            actor.Post(new Message { Text = "Hi"});
+            actor.PostWithReply<Message>(new Message { Text = "Hi" },msg => Console.WriteLine(msg.Text));
         }
 
 
